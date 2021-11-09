@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+
+"user_data_id","user_data_name","model_user_data_crypto",,1,1,1,1
