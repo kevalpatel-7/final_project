@@ -10,6 +10,23 @@ import requests
 from datetime import datetime
 
 
+
+
+class crypto_data(models.Model):
+
+    _name = "crypto.data"
+
+
+    name = fields.Char(string="name")
+    price = fields.Float(string="Price")
+    price_date = fields.Datetime(string="Price Date")
+    market_cap = fields.Float(string="Market Cap")
+    market_cap_dominance = fields.Float(string="market cap Dominance")
+    rank = fields.Integer(string="Rank")
+    img = fields.Binary(string="Logo")
+
+
+
 class token_detail(models.Model):
 
     _name = "user.data.crypto"
@@ -28,14 +45,39 @@ class token_detail(models.Model):
 
 
         r=requests.get(url)
+        data_obj = self.env['crypto.data']
 
+        # data_obj.search([]).unlink()
 
         for i in r.json() :
 
-            print ("=====iiii============",i)
+
+            date = datetime.strptime(i.get('price_date'), '%Y-%m-%dT%H:%M:%SZ')
 
 
-        return 
+            data_obj.create({
+
+                'name' : i.get('name'),
+                'price' : i.get('price'),
+                'price_date' : date,
+
+                'market_cap' : i.get('market_cap'),
+                'market_cap_dominance' : i.get('market_cap_dominance'),
+                'rank' : i.get('rank'),
+
+
+                })
+
+
+
+
+        action = self.env["ir.actions.act_window"]._for_xml_id("crypto_module.crypto_datq_action_stored")
+        
+
+       
+        return action
+
+         
 
 
 
