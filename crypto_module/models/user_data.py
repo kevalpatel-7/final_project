@@ -10,6 +10,13 @@ import requests
 from datetime import datetime
 
 
+class crypto_data_date(models.Model):
+    _name = "crypto.data.date"
+
+    price = fields.Float(string="Price")
+    price_date = fields.Datetime(string="Price Date")
+    crypto_id = fields.Many2one('crypto.data',string="crypto Id")
+
 
 
 class crypto_data(models.Model):
@@ -24,6 +31,8 @@ class crypto_data(models.Model):
     market_cap_dominance = fields.Float(string="market cap Dominance")
     rank = fields.Integer(string="Rank")
     img = fields.Binary(string="Logo")
+    price_ids = fields.One2many('crypto.data.date','crypto_id',string="Price History")
+
 
 
 
@@ -67,6 +76,8 @@ class token_detail(models.Model):
 
 
                 })
+
+            url_date = "https://api.nomics.com/v1/exchange-rates/history?key=b1e6e192bca016b2cddfb98b79510f191ad4124f&currency="+i.get('id')+"&start=2018-04-14T00%3A00%3A00Z&end=2018-05-14T00%3A00%3A00Z"
 
 
 
