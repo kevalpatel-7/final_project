@@ -11,6 +11,15 @@
             <field name="model">crypto.data</field>
             <field name="arch" type="xml">
                 <form>
+
+                    <header>
+                         <button name='calculate_price_date' type="object" string="Get Prices"/>
+                         <button name="view_graph" type="object" string="Open"/>
+
+                    </header>
+
+                    <sheet>
+
                     <group>
                         <group>
                             <field name="name"  />
@@ -23,10 +32,17 @@
                         </group>
 
                         <group>
+                            <field name="price_ids">
+                                <tree>
+                                    <field name="price_date"  />
+
+                                    <field name="price"  />
+                                </tree>
+                            </field>
                         </group>
 
                     </group>
-                    
+                    </sheet>
                
                 </form>
             </field>
@@ -66,20 +82,23 @@
     
 
 
-    <record id="crypto_order_action_view_order_graph" model="ir.actions.act_window.view">
-            <field name="sequence" eval="6"/>
-            <field name="view_mode">graph</field>
-            <field name="view_id" ref="viewcrypto_graph"/>
-            <field name="act_window_id" ref="crypto_datq_action_stored"/>
-        </record>
+   
 
     <record id="crypto_datq_action_stored" model="ir.actions.act_window">
             <field name="type">ir.actions.act_window</field>
             <field name="name">Crypto User Data</field>
             <field name="res_model">crypto.data</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
             
             <field name="target">current</field>
+        </record>
+
+
+     <record id="crypto_order_action_view_order_graph" model="ir.actions.act_window.view">
+            <field name="sequence" eval="6"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="viewcrypto_graph"/>
+            <field name="act_window_id" ref="crypto_datq_action_stored"/>
         </record>
 
 
@@ -88,6 +107,39 @@
             <field name="sequence" eval="100" />
             <field name="action" ref="crypto_datq_action_stored" />
             <field name="parent_id" ref="crypto_sub_menu" />
+        </record>
+
+
+
+
+<record model="ir.ui.view" id="viewcrypto_graph_date">
+            <field name="name">crypto.order.graph</field>
+            <field name="model">crypto.data.date</field>
+            <field name="arch" type="xml">
+                <graph string="Crypto Data" sample="2">
+                    <field name="price_date"/>
+                    <field name="price" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+  <record id="date_action_view_order_graph_date" model="ir.actions.act_window">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Crypto Data</field>
+            <field name="res_model">crypto.data.date</field>
+            <field name="view_mode">graph</field>
+            
+            <field name="target">current</field>
+        </record>
+
+
+
+ <record id="crypto_order_action_view_order_graph_date" model="ir.actions.act_window.view">
+            <field name="sequence" eval="6"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="viewcrypto_graph_date"/>
+            <field name="act_window_id" ref="date_action_view_order_graph_date"/>
         </record>
 
    
